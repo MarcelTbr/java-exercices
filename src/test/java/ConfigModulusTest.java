@@ -17,9 +17,8 @@ public class ConfigModulusTest {
     @org.testng.annotations.Test
     public void testGetRewardLevel() throws Exception {
 
-        int endTestingLevel = 15;
+        int endTestingLevel = 100;
 
-        String newline = System.getProperty("line.separator");
         List<Integer> repeatedLevels = new LinkedList<Integer>();
 
         repeatedLevels.add(4);
@@ -29,47 +28,50 @@ public class ConfigModulusTest {
         ConfigModulus config = new ConfigModulus(8,repeatedLevels);
 
         //just printing out all the levels up to endTestingLevel for visual feedback
-        for(int i = 1; i <= endTestingLevel; i++){
-
-            System.out.println("level: " + i + newline + "reward level: " +config.getRewardLevel(i));
-            System.out.print(newline + newline);
-
-        }
+        printLegend(endTestingLevel, config);
 
         // testing all level rewards up to 'maxLevel'
-        for(int i = 1; i <= config.maxLevel; i++ ){
-
-            Assert.assertEquals(i,config.getRewardLevel(i));
-
-        }
+        testInitialLevels(config);
 
         // testing from next to 'maxLevel' up to 'endTestingLevel'
+        testRepeatingLevels(endTestingLevel, config);
 
-        List<Integer> repeatedRewards = new LinkedList<>();
 
-        // 1) iterate from start to end of repeatedLevels and fill repeatedRewards
-        //    with the corresponding reward level, to create a control list.
+    }
+
+    private void testRepeatingLevels(int endTestingLevel, ConfigModulus config) {
+        // 1) iterate from start to end of repeatedLevels and fill repeatedRewards.
         int j = 0;
         for(int i = config.maxLevel + 1 ; i <= endTestingLevel; i++){
-
-            repeatedRewards.add(config.repeatedLevels.get(j));
-
+            // 2) get the correct reward Level from 'repeatedLevels'
+            int control = config.repeatedLevels.get(j);
+            // 3) checking if the method is returning the correct reward level
+            Assert.assertEquals( control , config.getRewardLevel(i));
+            // 4) go back to the start of the 'repeatedLevels' if the end is reached
             if ( j < config.repeatedLevels.size() - 1) {
                 j++;
             } else {
                 j = 0;
             }
         }
+    }
 
-        // 2) iterate from start to end of repeatedLevels and check with our control list
-        int k = 0;
-        for(int i = config.maxLevel + 1 ; i <= endTestingLevel; i++){
-            int control = repeatedRewards.get(k);
-//            System.out.print(" control: " + control + " reward " + config.getRewardLevel(i) + newline);
-            Assert.assertEquals( control , config.getRewardLevel(i));
-            if( k < config.repeatedLevels.size() - 1){
-                k++;
-            } else { k = 0;}
+    private void testInitialLevels(ConfigModulus config) {
+        for(int i = 1; i <= config.maxLevel; i++ ){
+
+            Assert.assertEquals(i,config.getRewardLevel(i));
+
+        }
+    }
+
+    private void printLegend(int endTestingLevel, ConfigModulus config) {
+
+        String newline = System.getProperty("line.separator");
+
+        for(int i = 1; i <= endTestingLevel; i++){
+
+            System.out.println("level: " + i + newline + "reward level: " + config.getRewardLevel(i));
+            System.out.print(newline + newline);
 
         }
     }

@@ -42,4 +42,8 @@ public class ConfigModulus {
 
     }
 
+    public int getMaxLevel(){ return this.maxLevel;}
+
+    public List<Integer> getRepeatedLevels() { return this.repeatedLevels; }
+
 }
