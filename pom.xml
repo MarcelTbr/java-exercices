@@ -12,5 +12,13 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
-
+    <dependencies>
+    <!-- Dependency libraries to include for compilation -->
+    <!-- https://mvnrepository.com/artifact/org.testng/testng -->
+    <dependency>
+        <groupId>org.testng</groupId>
+        <artifactId>testng</artifactId>
+        <version>6.10</version>
+    </dependency>
+    </dependencies>
 </project>
